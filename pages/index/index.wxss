@@ -1,0 +1,307 @@
+/**index.wxss**/
+page {
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 40rpx 30rpx;
+  box-sizing: border-box;
+}
+
+/* 主界面 */
+.main-content {
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 表单容器 */
+.form-container {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.form-item {
+  margin-bottom: 40rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 20rpx;
+  font-weight: 500;
+}
+
+.form-picker {
+  width: 100%;
+}
+
+.picker-text {
+  display: block;
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.radio-group {
+  display: flex;
+  gap: 40rpx;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.calc-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+  border-radius: 10rpx;
+  margin-top: 20rpx;
+  border: none;
+}
+
+.calc-btn::after {
+  border: none;
+}
+
+.test-btn {
+  width: 100%;
+  height: 70rpx;
+  background: #e8e8e8;
+  color: #666;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  margin-top: 20rpx;
+  border: none;
+}
+
+.test-btn::after {
+  border: none;
+}
+
+/* 错误提示 */
+.error-msg {
+  background: #fff5f5;
+  border: 1rpx solid #ffcccc;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+  color: #ff4444;
+  font-size: 26rpx;
+}
+
+/* 结果显示 */
+.result-container {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.result-header {
+  margin-bottom: 30rpx;
+}
+
+.result-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.bazi-display {
+  text-align: center;
+  padding: 40rpx 0;
+  background: linear-gradient(135deg, #f8f8f8 0%, #fff 100%);
+  border-radius: 10rpx;
+  margin-bottom: 30rpx;
+}
+
+.bazi-main {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ff6b35;
+  letter-spacing: 8rpx;
+}
+
+.bazi-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.bazi-item {
+  flex: 1;
+  min-width: 45%;
+  background: #f8f8f8;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  text-align: center;
+}
+
+.bazi-label {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.bazi-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.input-info {
+  padding-top: 20rpx;
+  border-top: 1rpx solid #eee;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.info-label {
+  color: #666;
+}
+
+.info-text {
+  color: #333;
+  margin-left: 10rpx;
+}
+
+/* 测试面板 */
+.test-panel {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.test-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.test-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.close-btn {
+  height: 50rpx;
+  padding: 0 20rpx;
+  background: #f0f0f0;
+  color: #666;
+  font-size: 24rpx;
+  border-radius: 8rpx;
+  line-height: 50rpx;
+  border: none;
+}
+
+.close-btn::after {
+  border: none;
+}
+
+.test-content {
+  max-height: 80vh;
+}
+
+.test-item {
+  margin-bottom: 30rpx;
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 10rpx;
+}
+
+.test-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.test-name {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.test-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.test-status.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.test-status.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.test-result {
+  margin-top: 15rpx;
+}
+
+.test-result .bazi-text {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff6b35;
+  margin-bottom: 15rpx;
+  text-align: center;
+}
+
+.test-result .bazi-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.test-error {
+  margin-top: 15rpx;
+  color: #ff4444;
+  font-size: 24rpx;
+}

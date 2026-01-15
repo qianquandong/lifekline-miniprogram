@@ -1,0 +1,119 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 测试模式 -->
+  <view wx:if="{{testMode}}" class="test-panel">
+    <view class="test-header">
+      <text class="test-title">测试结果</text>
+      <button class="close-btn" bindtap="closeTestMode">关闭</button>
+    </view>
+    <scroll-view class="test-content" scroll-y>
+      <view wx:for="{{testResults}}" wx:key="index" class="test-item">
+        <view class="test-item-header">
+          <text class="test-name">{{item.name}}</text>
+          <text class="test-status {{item.success ? 'success' : 'error'}}">
+            {{item.success ? '✓ 通过' : '✗ 失败'}}
+          </text>
+        </view>
+        <view wx:if="{{item.success}}" class="test-result">
+          <text class="bazi-text">{{item.result.bazi}}</text>
+          <view class="bazi-detail">
+            <text>年柱: {{item.result.year.full}}</text>
+            <text>月柱: {{item.result.month.full}}</text>
+            <text>日柱: {{item.result.day.full}}</text>
+            <text>时柱: {{item.result.hour.full}} ({{item.result.hour.name}})</text>
+          </view>
+        </view>
+        <view wx:else class="test-error">
+          <text>{{item.error}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 主界面 -->
+  <view wx:else class="main-content">
+    <view class="header">
+      <text class="title">人生K线</text>
+      <text class="subtitle">八字命理分析</text>
+    </view>
+
+    <view class="form-container">
+      <!-- 出生日期 -->
+      <view class="form-item">
+        <text class="form-label">出生日期</text>
+        <picker mode="date" value="{{birthDate}}" bindchange="onDateChange" class="form-picker">
+          <view class="picker-text">{{birthDate || '请选择日期'}}</view>
+        </picker>
+      </view>
+
+      <!-- 出生时间 -->
+      <view class="form-item">
+        <text class="form-label">出生时间</text>
+        <picker mode="time" value="{{birthTime}}" bindchange="onTimeChange" class="form-picker">
+          <view class="picker-text">{{birthTime || '请选择时间'}}</view>
+        </picker>
+      </view>
+
+      <!-- 性别 -->
+      <view class="form-item">
+        <text class="form-label">性别</text>
+        <radio-group class="radio-group" bindchange="onGenderChange">
+          <label class="radio-label">
+            <radio value="male" checked="{{gender === 'male'}}" color="#ff6b35" />
+            <text>男</text>
+          </label>
+          <label class="radio-label">
+            <radio value="female" checked="{{gender === 'female'}}" color="#ff6b35" />
+            <text>女</text>
+          </label>
+        </radio-group>
+      </view>
+
+      <!-- 计算按钮 -->
+      <button class="calc-btn" bindtap="calculateBazi">计算八字</button>
+
+      <!-- 测试按钮 -->
+      <button class="test-btn" bindtap="runTests">运行测试</button>
+    </view>
+
+    <!-- 错误提示 -->
+    <view wx:if="{{errorMsg}}" class="error-msg">
+      <text>{{errorMsg}}</text>
+    </view>
+
+    <!-- 八字结果显示 -->
+    <view wx:if="{{baziResult}}" class="result-container">
+      <view class="result-header">
+        <text class="result-title">八字结果</text>
+      </view>
+      
+      <view class="bazi-display">
+        <text class="bazi-main">{{baziResult.bazi}}</text>
+      </view>
+
+      <view class="bazi-details">
+        <view class="bazi-item">
+          <text class="bazi-label">年柱</text>
+          <text class="bazi-value">{{baziResult.year.full}}</text>
+        </view>
+        <view class="bazi-item">
+          <text class="bazi-label">月柱</text>
+          <text class="bazi-value">{{baziResult.month.full}}</text>
+        </view>
+        <view class="bazi-item">
+          <text class="bazi-label">日柱</text>
+          <text class="bazi-value">{{baziResult.day.full}}</text>
+        </view>
+        <view class="bazi-item">
+          <text class="bazi-label">时柱</text>
+          <text class="bazi-value">{{baziResult.hour.full}} ({{baziResult.hour.name}})</text>
+        </view>
+      </view>
+
+      <view class="input-info">
+        <text class="info-label">输入信息：</text>
+        <text class="info-text">{{baziResult.input.birthDate}} {{baziResult.input.birthTime}} {{baziResult.input.gender === 'male' ? '男' : '女'}}</text>
+      </view>
+    </view>
+  </view>
+</view>
