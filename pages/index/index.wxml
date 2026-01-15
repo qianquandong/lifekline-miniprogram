@@ -37,52 +37,54 @@
       <text class="subtitle">八字命理分析</text>
     </view>
 
-    <view class="form-container">
-      <!-- 出生日期 -->
-      <view class="form-item">
-        <text class="form-label">出生日期</text>
-        <picker mode="date" value="{{birthDate}}" bindchange="onDateChange" class="form-picker">
-          <view class="picker-text">{{birthDate || '请选择日期'}}</view>
-        </picker>
+    <!-- 可滚动内容区域 -->
+    <scroll-view class="scroll-content" scroll-y enhanced show-scrollbar="{{false}}">
+      <view class="form-container">
+        <!-- 出生日期 -->
+        <view class="form-item">
+          <text class="form-label">出生日期</text>
+          <picker mode="date" value="{{birthDate}}" bindchange="onDateChange" class="form-picker">
+            <view class="picker-text">{{birthDate || '请选择日期'}}</view>
+          </picker>
+        </view>
+
+        <!-- 出生时间 -->
+        <view class="form-item">
+          <text class="form-label">出生时间</text>
+          <picker mode="time" value="{{birthTime}}" bindchange="onTimeChange" class="form-picker">
+            <view class="picker-text">{{birthTime || '请选择时间'}}</view>
+          </picker>
+        </view>
+
+        <!-- 性别 -->
+        <view class="form-item">
+          <text class="form-label">性别</text>
+          <radio-group class="radio-group" bindchange="onGenderChange">
+            <label class="radio-label">
+              <radio value="male" checked="{{gender === 'male'}}" color="#ff6b35" />
+              <text>男</text>
+            </label>
+            <label class="radio-label">
+              <radio value="female" checked="{{gender === 'female'}}" color="#ff6b35" />
+              <text>女</text>
+            </label>
+          </radio-group>
+        </view>
+
+        <!-- 计算按钮 -->
+        <button class="calc-btn" bindtap="calculateBazi">计算八字</button>
+
+        <!-- 测试按钮 -->
+        <button class="test-btn" bindtap="runTests">运行测试</button>
       </view>
 
-      <!-- 出生时间 -->
-      <view class="form-item">
-        <text class="form-label">出生时间</text>
-        <picker mode="time" value="{{birthTime}}" bindchange="onTimeChange" class="form-picker">
-          <view class="picker-text">{{birthTime || '请选择时间'}}</view>
-        </picker>
+      <!-- 错误提示 -->
+      <view wx:if="{{errorMsg}}" class="error-msg">
+        <text>{{errorMsg}}</text>
       </view>
 
-      <!-- 性别 -->
-      <view class="form-item">
-        <text class="form-label">性别</text>
-        <radio-group class="radio-group" bindchange="onGenderChange">
-          <label class="radio-label">
-            <radio value="male" checked="{{gender === 'male'}}" color="#ff6b35" />
-            <text>男</text>
-          </label>
-          <label class="radio-label">
-            <radio value="female" checked="{{gender === 'female'}}" color="#ff6b35" />
-            <text>女</text>
-          </label>
-        </radio-group>
-      </view>
-
-      <!-- 计算按钮 -->
-      <button class="calc-btn" bindtap="calculateBazi">计算八字</button>
-
-      <!-- 测试按钮 -->
-      <button class="test-btn" bindtap="runTests">运行测试</button>
-    </view>
-
-    <!-- 错误提示 -->
-    <view wx:if="{{errorMsg}}" class="error-msg">
-      <text>{{errorMsg}}</text>
-    </view>
-
-    <!-- 八字结果显示 -->
-    <view wx:if="{{baziResult}}" class="result-container">
+      <!-- 八字结果显示 -->
+      <view wx:if="{{baziResult}}" class="result-container">
       <view class="result-header">
         <text class="result-title">八字结果</text>
       </view>
@@ -115,12 +117,13 @@
         <text class="info-text">{{baziResult.input.birthDate}} {{baziResult.input.birthTime}} {{baziResult.input.gender === 'male' ? '男' : '女'}}</text>
       </view>
 
-      <!-- 操作按钮 -->
-      <view class="action-buttons">
-        <button class="action-btn primary" bindtap="generatePrompt">生成AI提示词</button>
-        <button class="action-btn secondary" bindtap="openImportDialog">导入AI结果</button>
+        <!-- 操作按钮 -->
+        <view class="action-buttons">
+          <button class="action-btn primary" bindtap="generatePrompt">生成AI提示词</button>
+          <button class="action-btn secondary" bindtap="openImportDialog">导入AI结果</button>
+        </view>
       </view>
-    </view>
+    </scroll-view>
 
     <!-- 提示词预览弹窗 -->
     <view wx:if="{{showPrompt}}" class="modal-overlay" bindtap="closePrompt">

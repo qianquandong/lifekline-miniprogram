@@ -47,9 +47,10 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
     return { ...item, x, y };
   });
 
-  // 绘制网格线
+  // 绘制网格线（减淡）
   ctx.strokeStyle = gridColor;
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 0.5;
+  ctx.globalAlpha = 0.3;
   
   // 水平网格线（分数线）
   const gridLines = 5;
@@ -65,6 +66,7 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
     ctx.fillStyle = textColor;
     ctx.font = `${fontSize}px sans-serif`;
     ctx.textAlign = 'right';
+    ctx.globalAlpha = 0.6;
     ctx.fillText(Math.round(score).toString(), chartX - 10, y + 4);
   }
 
@@ -77,31 +79,90 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
       ctx.beginPath();
       ctx.moveTo(x, chartY);
       ctx.lineTo(x, chartY + chartHeight);
+      ctx.globalAlpha = 0.3;
       ctx.stroke();
 
       // 绘制年龄标签
       ctx.fillStyle = textColor;
       ctx.font = `${fontSize}px sans-serif`;
       ctx.textAlign = 'center';
+      ctx.globalAlpha = 0.6;
       ctx.fillText(age.toString(), x, chartY + chartHeight + 20);
     }
   }
 
-  // 绘制趋势线
+  ctx.globalAlpha = 1;
+
+  // 绘制平滑曲线（使用三次贝塞尔曲线）
   ctx.strokeStyle = lineColor;
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  dataPoints.forEach((point, index) => {
-    if (index === 0) {
-      ctx.moveTo(point.x, point.y);
-    } else {
-      ctx.lineTo(point.x, point.y);
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  
+  // 创建平滑曲线路径
+  function createSmoothPath(points) {
+    if (points.length < 2) return;
+    
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    
+    for (let i = 0; i < points.length - 1; i++) {
+      const current = points[i];
+      const next = points[i + 1];
+      
+      if (i === 0) {
+        // 第一个点：使用下一个点作为控制点
+        const cp1x = current.x + (next.x - current.x) * 0.3;
+        const cp1y = current.y;
+        ctx.quadraticCurveTo(cp1x, cp1y, (current.x + next.x) / 2, (current.y + next.y) / 2);
+      } else if (i === points.length - 2) {
+        // 最后一个点：使用当前点作为控制点
+        const cp2x = next.x - (next.x - current.x) * 0.3;
+        const cp2y = next.y;
+        ctx.quadraticCurveTo(cp2x, cp2y, next.x, next.y);
+      } else {
+        // 中间点：使用前后点的平均值作为控制点
+        const prev = points[i - 1];
+        const cp1x = current.x + (next.x - prev.x) * 0.15;
+        const cp1y = current.y + (next.y - prev.y) * 0.15;
+        const cp2x = next.x - (next.x - prev.x) * 0.15;
+        const cp2y = next.y - (next.y - prev.y) * 0.15;
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, next.x, next.y);
+      }
     }
-  });
+  }
+  
+  createSmoothPath(dataPoints);
   ctx.stroke();
 
-  // 绘制K线
-  const barWidth = Math.max(1, chartWidth / fortuneData.length * 0.6);
+  // 绘制曲线下方的填充（渐变）
+  if (dataPoints.length > 0) {
+    const gradient = ctx.createLinearGradient(
+      chartX, chartY,
+      chartX, chartY + chartHeight
+    );
+    gradient.addColorStop(0, 'rgba(200, 100, 50, 0.12)');
+    gradient.addColorStop(0.5, 'rgba(200, 100, 50, 0.06)');
+    gradient.addColorStop(1, 'rgba(200, 100, 50, 0.01)');
+    
+    ctx.fillStyle = gradient;
+    
+    // 创建填充路径
+    ctx.beginPath();
+    ctx.moveTo(dataPoints[0].x, chartY + chartHeight);
+    
+    // 使用相同的平滑曲线
+    createSmoothPath(dataPoints);
+    
+    // 闭合路径到底部
+    ctx.lineTo(dataPoints[dataPoints.length - 1].x, chartY + chartHeight);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // 绘制K线（减淡显示，作为背景）
+  const barWidth = Math.max(1, chartWidth / fortuneData.length * 0.4);
+  ctx.globalAlpha = 0.3;
   dataPoints.forEach((point, index) => {
     if (index === 0) return; // 第一年没有前一年的数据，无法计算涨跌
 
@@ -119,53 +180,38 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
       color = downColor;
     }
 
-    // 绘制K线实体
+    // 绘制K线实体（减淡）
     ctx.fillStyle = color;
     ctx.fillRect(point.x - barWidth / 2, highY, barWidth, lowY - highY);
-
-    // 绘制上下影线（简化版，只显示主要趋势）
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(point.x, highY);
-    ctx.lineTo(point.x, Math.min(openY, closeY) - 2);
-    ctx.moveTo(point.x, lowY);
-    ctx.lineTo(point.x, Math.max(openY, closeY) + 2);
-    ctx.stroke();
   });
+  ctx.globalAlpha = 1;
 
-  // 绘制数据点
+  // 绘制关键数据点（每10岁）
   ctx.fillStyle = lineColor;
+  ctx.globalAlpha = 0.8;
   dataPoints.forEach((point, index) => {
     if (index % 10 === 0 || index === dataPoints.length - 1) {
       // 每10岁显示一个点，最后一个点也显示
       ctx.beginPath();
-      ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
+      ctx.arc(point.x, point.y, 3.5, 0, Math.PI * 2);
       ctx.fill();
     }
   });
+  ctx.globalAlpha = 1;
 
-  // 绘制标题和标签
+  // 绘制标题和标签（减淡）
   ctx.fillStyle = textColor;
-  ctx.font = `bold ${fontSize + 2}px sans-serif`;
+  ctx.globalAlpha = 0.7;
+  ctx.font = `600 ${fontSize + 2}px sans-serif`;
   ctx.textAlign = 'center';
-  ctx.fillText('人生运势K线图 (1-100岁)', width / 2, 20);
-
-  // Y轴标签
-  ctx.save();
-  ctx.translate(15, height / 2);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillStyle = textColor;
-  ctx.font = `${fontSize}px sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.fillText('运势分数', 0, 0);
-  ctx.restore();
+  ctx.fillText('人生运势K线图 (1-100岁)', width / 2, 24);
 
   // X轴标签
   ctx.fillStyle = textColor;
   ctx.font = `${fontSize}px sans-serif`;
   ctx.textAlign = 'center';
   ctx.fillText('年龄', width / 2, height - 10);
+  ctx.globalAlpha = 1;
 
   return dataPoints;
 }

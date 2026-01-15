@@ -1,19 +1,57 @@
 <!--result.wxml-->
 <view class="container" catchtap="stopPropagation">
+  <!-- 返回按钮 - 独立在左上角 -->
+  <view class="back-btn-wrapper" bindtap="goBack">
+    <text class="back-icon">‹</text>
+    <text class="back-text">返回</text>
+  </view>
+
   <!-- 头部 -->
   <view class="header">
     <view class="header-content">
-      <text class="back-btn" bindtap="goBack">← 返回</text>
       <text class="header-title">分析报告</text>
-      <text class="header-placeholder"></text>
     </view>
   </view>
+
+  <!-- 可滚动内容区域 -->
+  <scroll-view class="scroll-content" scroll-y enhanced show-scrollbar="{{false}}">
 
   <!-- 八字信息卡片 -->
   <view wx:if="{{bazi}}" class="bazi-card">
     <view class="bazi-card-title">八字信息</view>
-    <view class="bazi-display">
-      <text class="bazi-text">{{bazi.bazi}}</text>
+    <view class="bazi-pillars">
+      <view class="bazi-pillar" data-pillar="year">
+        <view class="pillar-label">年</view>
+        <view class="pillar-content">
+          <text class="pillar-gan">{{bazi.year.gan}}</text>
+          <text class="pillar-zhi">{{bazi.year.zhi}}</text>
+        </view>
+        <view class="pillar-wuxing"></view>
+      </view>
+      <view class="bazi-pillar" data-pillar="month">
+        <view class="pillar-label">月</view>
+        <view class="pillar-content">
+          <text class="pillar-gan">{{bazi.month.gan}}</text>
+          <text class="pillar-zhi">{{bazi.month.zhi}}</text>
+        </view>
+        <view class="pillar-wuxing"></view>
+      </view>
+      <view class="bazi-pillar" data-pillar="day">
+        <view class="pillar-label">日</view>
+        <view class="pillar-content">
+          <text class="pillar-gan">{{bazi.day.gan}}</text>
+          <text class="pillar-zhi">{{bazi.day.zhi}}</text>
+        </view>
+        <view class="pillar-wuxing"></view>
+      </view>
+      <view class="bazi-pillar" data-pillar="hour">
+        <view class="pillar-label">时</view>
+        <view class="pillar-content">
+          <text class="pillar-gan">{{bazi.hour.gan}}</text>
+          <text class="pillar-zhi">{{bazi.hour.zhi}}</text>
+        </view>
+        <view class="pillar-wuxing"></view>
+      </view>
     </view>
     <view class="bazi-info">
       <text>{{bazi.input.birthDate}} {{bazi.input.birthTime}} {{bazi.input.gender === 'male' ? '男' : '女'}}</text>
@@ -41,10 +79,15 @@
   <!-- 分析报告 -->
   <view wx:if="{{activeTab === 'report' && analysisData}}" class="report-container">
     <!-- 性格分析 -->
-    <view class="report-section">
+    <view wx:if="{{analysisData.personality}}" class="report-section">
       <view class="section-header" data-section="personality" bindtap="toggleSection">
-        <text class="section-title">性格分析</text>
-        <text class="section-toggle">{{expandedSections.personality ? '▼' : '▶'}}</text>
+        <view class="section-left">
+          <text class="section-icon">🧠</text>
+          <text class="section-title">性格分析</text>
+        </view>
+        <view class="section-right">
+          <text class="section-toggle">{{expandedSections.personality ? '▲' : '▼'}}</text>
+        </view>
       </view>
       <view wx:if="{{expandedSections.personality}}" class="section-content">
         <text class="section-text">{{analysisData.personality}}</text>
@@ -52,10 +95,15 @@
     </view>
 
     <!-- 事业分析 -->
-    <view class="report-section">
+    <view wx:if="{{analysisData.career}}" class="report-section">
       <view class="section-header" data-section="career" bindtap="toggleSection">
-        <text class="section-title">事业分析</text>
-        <text class="section-toggle">{{expandedSections.career ? '▼' : '▶'}}</text>
+        <view class="section-left">
+          <text class="section-icon">💼</text>
+          <text class="section-title">事业分析</text>
+        </view>
+        <view class="section-right">
+          <text class="section-toggle">{{expandedSections.career ? '▲' : '▼'}}</text>
+        </view>
       </view>
       <view wx:if="{{expandedSections.career}}" class="section-content">
         <text class="section-text">{{analysisData.career}}</text>
@@ -63,10 +111,15 @@
     </view>
 
     <!-- 财富分析 -->
-    <view class="report-section">
+    <view wx:if="{{analysisData.wealth}}" class="report-section">
       <view class="section-header" data-section="wealth" bindtap="toggleSection">
-        <text class="section-title">财富分析</text>
-        <text class="section-toggle">{{expandedSections.wealth ? '▼' : '▶'}}</text>
+        <view class="section-left">
+          <text class="section-icon">💰</text>
+          <text class="section-title">财富分析</text>
+        </view>
+        <view class="section-right">
+          <text class="section-toggle">{{expandedSections.wealth ? '▲' : '▼'}}</text>
+        </view>
       </view>
       <view wx:if="{{expandedSections.wealth}}" class="section-content">
         <text class="section-text">{{analysisData.wealth}}</text>
@@ -74,10 +127,15 @@
     </view>
 
     <!-- 婚姻分析 -->
-    <view class="report-section">
+    <view wx:if="{{analysisData.marriage}}" class="report-section">
       <view class="section-header" data-section="marriage" bindtap="toggleSection">
-        <text class="section-title">婚姻分析</text>
-        <text class="section-toggle">{{expandedSections.marriage ? '▼' : '▶'}}</text>
+        <view class="section-left">
+          <text class="section-icon">💕</text>
+          <text class="section-title">婚姻分析</text>
+        </view>
+        <view class="section-right">
+          <text class="section-toggle">{{expandedSections.marriage ? '▲' : '▼'}}</text>
+        </view>
       </view>
       <view wx:if="{{expandedSections.marriage}}" class="section-content">
         <text class="section-text">{{analysisData.marriage}}</text>
@@ -85,14 +143,24 @@
     </view>
 
     <!-- 健康分析 -->
-    <view class="report-section">
+    <view wx:if="{{analysisData.health}}" class="report-section">
       <view class="section-header" data-section="health" bindtap="toggleSection">
-        <text class="section-title">健康分析</text>
-        <text class="section-toggle">{{expandedSections.health ? '▼' : '▶'}}</text>
+        <view class="section-left">
+          <text class="section-icon">🌿</text>
+          <text class="section-title">健康分析</text>
+        </view>
+        <view class="section-right">
+          <text class="section-toggle">{{expandedSections.health ? '▲' : '▼'}}</text>
+        </view>
       </view>
       <view wx:if="{{expandedSections.health}}" class="section-content">
         <text class="section-text">{{analysisData.health}}</text>
       </view>
+    </view>
+    
+    <!-- 空数据提示 -->
+    <view wx:if="{{!analysisData.personality && !analysisData.career && !analysisData.wealth && !analysisData.marriage && !analysisData.health}}" class="empty-tip">
+      <text>暂无分析数据，请先导入AI分析结果</text>
     </view>
   </view>
 
@@ -100,12 +168,14 @@
   <view wx:if="{{activeTab === 'chart' && analysisData}}" class="chart-container">
     <view class="chart-wrapper">
       <canvas 
+        wx:if="{{chartWidth > 0 && chartHeight > 0}}"
         type="2d" 
         id="kline-canvas" 
         class="kline-canvas"
         style="width: {{chartWidth}}px; height: {{chartHeight}}px;"
         bindtap="onCanvasTap"
       ></canvas>
+      <view wx:else class="chart-loading">加载中...</view>
       
       <!-- 图例说明 -->
       <view class="chart-legend">
@@ -121,34 +191,35 @@
           <view class="legend-color" style="background: #999;"></view>
           <text>平稳</text>
         </view>
-        <view class="legend-hint">点击图表查看详情</view>
       </view>
+      <view class="legend-hint">点击图表查看详情</view>
     </view>
+  </view>
 
-    <!-- 数据点详情弹窗 -->
-    <view wx:if="{{showPointDetail && selectedPoint}}" class="point-detail-modal" bindtap="closePointDetail">
-      <view class="point-detail-content" catchtap="stopPropagation">
-        <view class="point-detail-header">
-          <text class="point-detail-title">{{selectedPoint.age}}岁运势</text>
-          <text class="point-detail-close" bindtap="closePointDetail">×</text>
+  <!-- 数据点详情弹窗 - 独立在图表容器外 -->
+  <view wx:if="{{showPointDetail && selectedPoint}}" class="point-detail-modal" bindtap="closePointDetail">
+    <view class="point-detail-content" catchtap="stopPropagation">
+      <view class="point-detail-header">
+        <text class="point-detail-title">{{selectedPoint.age}}岁运势</text>
+        <text class="point-detail-close" bindtap="closePointDetail">×</text>
+      </view>
+      <view class="point-detail-body">
+        <view class="point-detail-item">
+          <text class="point-label">年龄：</text>
+          <text class="point-value">{{selectedPoint.age}}岁</text>
         </view>
-        <view class="point-detail-body">
-          <view class="point-detail-item">
-            <text class="point-label">年龄：</text>
-            <text class="point-value">{{selectedPoint.age}}岁</text>
-          </view>
-          <view class="point-detail-item">
-            <text class="point-label">运势分数：</text>
-            <text class="point-value score-{{selectedPoint.trend}}">{{selectedPoint.score}}分</text>
-          </view>
-          <view class="point-detail-item">
-            <text class="point-label">趋势：</text>
-            <text class="point-value">
-              {{selectedPoint.trend === 'up' ? '上升' : selectedPoint.trend === 'down' ? '下降' : '平稳'}}
-            </text>
-          </view>
+        <view class="point-detail-item">
+          <text class="point-label">运势分数：</text>
+          <text class="point-value score-{{selectedPoint.trend}}">{{selectedPoint.score}}分</text>
+        </view>
+        <view class="point-detail-item">
+          <text class="point-label">趋势：</text>
+          <text class="point-value">
+            {{selectedPoint.trend === 'up' ? '上升' : selectedPoint.trend === 'down' ? '下降' : '平稳'}}
+          </text>
         </view>
       </view>
     </view>
   </view>
+  </scroll-view>
 </view>
