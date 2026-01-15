@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "分析报告",
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "usingComponents": {},
+  "renderer": "skyline",
+  "componentFramework": "glass-easel"
 }

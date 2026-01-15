@@ -1,5 +1,5 @@
 <!--result.wxml-->
-<view class="container">
+<view class="container" catchtap="stopPropagation">
   <!-- 头部 -->
   <view class="header">
     <view class="header-content">
@@ -98,10 +98,57 @@
 
   <!-- K线图 -->
   <view wx:if="{{activeTab === 'chart' && analysisData}}" class="chart-container">
-    <view class="chart-placeholder">
-      <text class="chart-tip">K线图功能开发中...</text>
-      <text class="chart-hint">将使用echarts-for-weixin实现</text>
+    <view class="chart-wrapper">
+      <canvas 
+        type="2d" 
+        id="kline-canvas" 
+        class="kline-canvas"
+        style="width: {{chartWidth}}px; height: {{chartHeight}}px;"
+        bindtap="onCanvasTap"
+      ></canvas>
+      
+      <!-- 图例说明 -->
+      <view class="chart-legend">
+        <view class="legend-item">
+          <view class="legend-color" style="background: #26a69a;"></view>
+          <text>上涨</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color" style="background: #ef5350;"></view>
+          <text>下跌</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color" style="background: #999;"></view>
+          <text>平稳</text>
+        </view>
+        <view class="legend-hint">点击图表查看详情</view>
+      </view>
     </view>
-    <!-- TODO: 集成echarts-for-weixin显示K线图 -->
+
+    <!-- 数据点详情弹窗 -->
+    <view wx:if="{{showPointDetail && selectedPoint}}" class="point-detail-modal" bindtap="closePointDetail">
+      <view class="point-detail-content" catchtap="stopPropagation">
+        <view class="point-detail-header">
+          <text class="point-detail-title">{{selectedPoint.age}}岁运势</text>
+          <text class="point-detail-close" bindtap="closePointDetail">×</text>
+        </view>
+        <view class="point-detail-body">
+          <view class="point-detail-item">
+            <text class="point-label">年龄：</text>
+            <text class="point-value">{{selectedPoint.age}}岁</text>
+          </view>
+          <view class="point-detail-item">
+            <text class="point-label">运势分数：</text>
+            <text class="point-value score-{{selectedPoint.trend}}">{{selectedPoint.score}}分</text>
+          </view>
+          <view class="point-detail-item">
+            <text class="point-label">趋势：</text>
+            <text class="point-value">
+              {{selectedPoint.trend === 'up' ? '上升' : selectedPoint.trend === 'down' ? '下降' : '平稳'}}
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </view>

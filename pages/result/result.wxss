@@ -149,23 +149,129 @@ page {
   padding: 30rpx;
 }
 
-.chart-placeholder {
+.chart-wrapper {
   background: #fff;
   border-radius: 20rpx;
-  padding: 100rpx 40rpx;
-  text-align: center;
+  padding: 30rpx;
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.chart-tip {
-  display: block;
-  font-size: 32rpx;
-  color: #666;
-  margin-bottom: 20rpx;
+.kline-canvas {
+  width: 100%;
+  border-radius: 10rpx;
 }
 
-.chart-hint {
-  display: block;
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30rpx;
+  margin-top: 30rpx;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
   font-size: 24rpx;
+  color: #666;
+}
+
+.legend-color {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 4rpx;
+}
+
+.legend-hint {
+  font-size: 22rpx;
+  color: #999;
+  margin-left: 20rpx;
+}
+
+/* 数据点详情弹窗 */
+.point-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.point-detail-content {
+  width: 80%;
+  max-width: 500rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.point-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: #fff;
+}
+
+.point-detail-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.point-detail-close {
+  font-size: 48rpx;
+  line-height: 1;
+  width: 48rpx;
+  height: 48rpx;
+  text-align: center;
+}
+
+.point-detail-body {
+  padding: 30rpx;
+}
+
+.point-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.point-detail-item:last-child {
+  border-bottom: none;
+}
+
+.point-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.point-value {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.point-value.score-up {
+  color: #26a69a;
+}
+
+.point-value.score-down {
+  color: #ef5350;
+}
+
+.point-value.score-flat {
   color: #999;
 }
