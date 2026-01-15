@@ -305,3 +305,154 @@ page {
   color: #ff4444;
   font-size: 24rpx;
 }
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  border: none;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: #fff;
+  font-weight: bold;
+}
+
+.action-btn.secondary {
+  background: #e8e8e8;
+  color: #666;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 600rpx;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 20rpx;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.import-modal {
+  max-width: 700rpx;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 48rpx;
+  color: #999;
+  line-height: 1;
+  width: 48rpx;
+  height: 48rpx;
+  text-align: center;
+}
+
+.modal-body {
+  flex: 1;
+  padding: 30rpx;
+  overflow-y: auto;
+}
+
+.prompt-text {
+  font-size: 26rpx;
+  line-height: 1.8;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.import-tip {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.import-textarea {
+  width: 100%;
+  min-height: 400rpx;
+  padding: 20rpx;
+  background: #f8f8f8;
+  border-radius: 10rpx;
+  font-size: 24rpx;
+  color: #333;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.import-hint {
+  display: block;
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 15rpx;
+  line-height: 1.5;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 20rpx;
+  padding: 30rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.modal-btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  border: none;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: #fff;
+  font-weight: bold;
+}
+
+.modal-btn.secondary {
+  background: #e8e8e8;
+  color: #666;
+  font-weight: normal;
+}
+
+.modal-btn::after {
+  border: none;
+}

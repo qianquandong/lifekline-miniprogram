@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<view class="container">
+<view class="container" catchtap="stopPropagation">
   <!-- 测试模式 -->
   <view wx:if="{{testMode}}" class="test-panel">
     <view class="test-header">
@@ -113,6 +113,55 @@
       <view class="input-info">
         <text class="info-label">输入信息：</text>
         <text class="info-text">{{baziResult.input.birthDate}} {{baziResult.input.birthTime}} {{baziResult.input.gender === 'male' ? '男' : '女'}}</text>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="action-buttons">
+        <button class="action-btn primary" bindtap="generatePrompt">生成AI提示词</button>
+        <button class="action-btn secondary" bindtap="openImportDialog">导入AI结果</button>
+      </view>
+    </view>
+
+    <!-- 提示词预览弹窗 -->
+    <view wx:if="{{showPrompt}}" class="modal-overlay" bindtap="closePrompt">
+      <view class="modal-content" catchtap="stopPropagation">
+        <view class="modal-header">
+          <text class="modal-title">AI提示词</text>
+          <text class="modal-close" bindtap="closePrompt">×</text>
+        </view>
+        <scroll-view class="modal-body" scroll-y>
+          <text class="prompt-text" selectable>{{promptText}}</text>
+        </scroll-view>
+        <view class="modal-footer">
+          <button class="modal-btn" bindtap="copyPrompt">复制提示词</button>
+          <button class="modal-btn secondary" bindtap="closePrompt">关闭</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- AI结果导入弹窗 -->
+    <view wx:if="{{showImportDialog}}" class="modal-overlay" bindtap="closeImportDialog">
+      <view class="modal-content import-modal" catchtap="stopPropagation">
+        <view class="modal-header">
+          <text class="modal-title">导入AI分析结果</text>
+          <text class="modal-close" bindtap="closeImportDialog">×</text>
+        </view>
+        <view class="modal-body">
+          <text class="import-tip">请将AI返回的JSON数据粘贴到下方：</text>
+          <textarea 
+            class="import-textarea" 
+            placeholder="粘贴JSON数据..."
+            value="{{aiResultInput}}"
+            bindinput="onAiResultInput"
+            auto-height
+            maxlength="-1"
+          ></textarea>
+          <text class="import-hint">提示：支持直接粘贴AI返回的完整内容，系统会自动提取JSON部分</text>
+        </view>
+        <view class="modal-footer">
+          <button class="modal-btn" bindtap="importAiResult">导入并查看</button>
+          <button class="modal-btn secondary" bindtap="closeImportDialog">取消</button>
+        </view>
       </view>
     </view>
   </view>
