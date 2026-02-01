@@ -312,21 +312,26 @@ Page({
         }
       }
 
+      // 向后兼容：如果数据中有fortune字段但没有growth字段，自动转换
+      if (jsonData.fortune && !jsonData.growth) {
+        jsonData.growth = jsonData.fortune
+      }
+
       // 验证数据格式
       if (!jsonData.personality || !jsonData.career || !jsonData.wealth || 
-          !jsonData.marriage || !jsonData.health || !Array.isArray(jsonData.fortune)) {
+          !jsonData.marriage || !jsonData.health || !Array.isArray(jsonData.growth)) {
         throw new Error('数据格式不完整，缺少必要字段')
       }
 
-      if (jsonData.fortune.length !== 100) {
-        throw new Error(`运势数据不完整，应该有100条数据，实际有${jsonData.fortune.length}条`)
+      if (jsonData.growth.length !== 100) {
+        throw new Error(`成长数据不完整，应该有100条数据，实际有${jsonData.growth.length}条`)
       }
 
-      // 验证fortune数组格式
-      for (let i = 0; i < jsonData.fortune.length; i++) {
-        const item = jsonData.fortune[i]
+      // 验证growth数组格式
+      for (let i = 0; i < jsonData.growth.length; i++) {
+        const item = jsonData.growth[i]
         if (!item.hasOwnProperty('age') || !item.hasOwnProperty('score') || !item.hasOwnProperty('trend')) {
-          throw new Error(`第${i + 1}条运势数据格式错误`)
+          throw new Error(`第${i + 1}条成长数据格式错误`)
         }
         if (item.age !== i + 1) {
           throw new Error(`第${i + 1}条数据年龄应为${i + 1}，实际为${item.age}`)

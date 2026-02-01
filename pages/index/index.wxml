@@ -34,7 +34,7 @@
   <view wx:else class="main-content">
     <view class="header">
       <text class="title">人生K线</text>
-      <text class="subtitle">八字命理分析</text>
+      <text class="subtitle">传统文化学习</text>
     </view>
 
     <!-- 可滚动内容区域 -->
@@ -72,7 +72,7 @@
         </view>
 
         <!-- 计算按钮 -->
-        <button class="calc-btn" bindtap="calculateBazi">计算八字</button>
+        <button class="calc-btn" bindtap="calculateBazi">计算传统干支</button>
 
         <!-- 测试按钮 -->
         <button class="test-btn" bindtap="runTests">运行测试</button>
@@ -83,10 +83,10 @@
         <text>{{errorMsg}}</text>
       </view>
 
-      <!-- 八字结果显示 -->
+      <!-- 传统干支结果显示 -->
       <view wx:if="{{baziResult}}" class="result-container">
       <view class="result-header">
-        <text class="result-title">八字结果</text>
+        <text class="result-title">传统干支信息</text>
       </view>
       
       <view class="bazi-display">
@@ -122,6 +122,11 @@
           <button class="action-btn primary" bindtap="generatePrompt">生成AI提示词</button>
           <button class="action-btn secondary" bindtap="openImportDialog">导入AI结果</button>
         </view>
+      </view>
+
+      <!-- 免责声明 -->
+      <view class="disclaimer">
+        <text class="disclaimer-text">免责声明：本产品仅供传统文化学习和个人成长参考，不涉及任何预测、建议或指导功能。</text>
       </view>
     </scroll-view>
 

@@ -16,9 +16,9 @@
   <!-- 可滚动内容区域 -->
   <scroll-view class="scroll-content" scroll-y enhanced show-scrollbar="{{false}}">
 
-  <!-- 八字信息卡片 -->
+  <!-- 传统干支信息卡片 -->
   <view wx:if="{{bazi}}" class="bazi-card">
-    <view class="bazi-card-title">八字信息</view>
+    <view class="bazi-card-title">传统干支信息</view>
     <view class="bazi-pillars">
       <view class="bazi-pillar" data-pillar="year">
         <view class="pillar-label">年</view>
@@ -72,7 +72,7 @@
       data-tab="chart"
       bindtap="switchTab"
     >
-      <text>运势K线</text>
+      <text>成长曲线</text>
     </view>
   </view>
 
@@ -200,7 +200,7 @@
   <view wx:if="{{showPointDetail && selectedPoint}}" class="point-detail-modal" bindtap="closePointDetail">
     <view class="point-detail-content" catchtap="stopPropagation">
       <view class="point-detail-header">
-        <text class="point-detail-title">{{selectedPoint.age}}岁运势</text>
+        <text class="point-detail-title">{{selectedPoint.age}}岁成长指数</text>
         <text class="point-detail-close" bindtap="closePointDetail">×</text>
       </view>
       <view class="point-detail-body">
@@ -209,7 +209,7 @@
           <text class="point-value">{{selectedPoint.age}}岁</text>
         </view>
         <view class="point-detail-item">
-          <text class="point-label">运势分数：</text>
+          <text class="point-label">成长指数：</text>
           <text class="point-value score-{{selectedPoint.trend}}">{{selectedPoint.score}}分</text>
         </view>
         <view class="point-detail-item">
@@ -220,6 +220,11 @@
         </view>
       </view>
     </view>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">
+    <text class="disclaimer-text">免责声明：本产品仅供传统文化学习和个人成长参考，不涉及任何预测、建议或指导功能。</text>
   </view>
   </scroll-view>
 </view>

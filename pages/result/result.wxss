@@ -481,3 +481,18 @@ page {
 .point-value.score-flat {
   color: #999;
 }
+
+/* 免责声明 */
+.disclaimer {
+  margin: 40rpx 30rpx;
+  padding: 20rpx;
+  background: rgba(255, 200, 100, 0.1);
+  border-radius: 8rpx;
+  border-left: 4rpx solid #ff6b35;
+}
+
+.disclaimer-text {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}

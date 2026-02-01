@@ -146,8 +146,13 @@ Page({
   drawChart() {
     const { analysisData, chartWidth, chartHeight } = this.data
     
-    if (!analysisData || !analysisData.fortune || !chartWidth || !chartHeight) {
-      console.log('Missing data:', { analysisData: !!analysisData, fortune: !!analysisData?.fortune, chartWidth, chartHeight })
+    // 向后兼容：如果数据中有fortune字段但没有growth字段，自动转换
+    if (analysisData && analysisData.fortune && !analysisData.growth) {
+      analysisData.growth = analysisData.fortune
+    }
+    
+    if (!analysisData || !analysisData.growth || !chartWidth || !chartHeight) {
+      console.log('Missing data:', { analysisData: !!analysisData, growth: !!analysisData?.growth, chartWidth, chartHeight })
       return
     }
 
@@ -178,7 +183,7 @@ Page({
         try {
           const dataPoints = chartUtil.drawKLineChart(
             ctx,
-            analysisData.fortune,
+            analysisData.growth,
             chartWidth,
             chartHeight,
             {

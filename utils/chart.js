@@ -1,17 +1,17 @@
 /**
  * K线图绘制工具
- * 使用Canvas绘制人生运势K线图
+ * 使用Canvas绘制人生成长曲线图
  */
 
 /**
  * 绘制K线图
  * @param {Object} ctx Canvas上下文
- * @param {Array} fortuneData 运势数据数组 [{age, score, trend}, ...]
+ * @param {Array} growthData 成长数据数组 [{age, score, trend}, ...]
  * @param {Number} width 画布宽度
  * @param {Number} height 画布高度
  * @param {Object} options 配置选项
  */
-function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
+function drawKLineChart(ctx, growthData, width, height, options = {}) {
   const {
     padding = { top: 40, right: 30, bottom: 50, left: 50 },
     gridColor = '#e0e0e0',
@@ -35,14 +35,14 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
   const chartY = padding.top;
 
   // 数据范围
-  const scores = fortuneData.map(item => item.score);
+  const scores = growthData.map(item => item.score);
   const minScore = Math.min(...scores, 0);
   const maxScore = Math.max(...scores, 100);
   const scoreRange = maxScore - minScore || 100;
 
   // 计算每个数据点的位置
-  const dataPoints = fortuneData.map((item, index) => {
-    const x = chartX + (index / (fortuneData.length - 1)) * chartWidth;
+  const dataPoints = growthData.map((item, index) => {
+    const x = chartX + (index / (growthData.length - 1)) * chartWidth;
     const y = chartY + chartHeight - ((item.score - minScore) / scoreRange) * chartHeight;
     return { ...item, x, y };
   });
@@ -161,7 +161,7 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
   }
 
   // 绘制K线（减淡显示，作为背景）
-  const barWidth = Math.max(1, chartWidth / fortuneData.length * 0.4);
+  const barWidth = Math.max(1, chartWidth / growthData.length * 0.4);
   ctx.globalAlpha = 0.3;
   dataPoints.forEach((point, index) => {
     if (index === 0) return; // 第一年没有前一年的数据，无法计算涨跌
@@ -204,7 +204,7 @@ function drawKLineChart(ctx, fortuneData, width, height, options = {}) {
   ctx.globalAlpha = 0.7;
   ctx.font = `600 ${fontSize + 2}px sans-serif`;
   ctx.textAlign = 'center';
-  ctx.fillText('人生运势K线图 (1-100岁)', width / 2, 24);
+  ctx.fillText('人生成长曲线图 (1-100岁)', width / 2, 24);
 
   // X轴标签
   ctx.fillStyle = textColor;
