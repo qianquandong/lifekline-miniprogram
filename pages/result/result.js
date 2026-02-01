@@ -13,7 +13,7 @@ Page({
       marriage: true,
       health: true
     },
-    // K线图相关
+    // 成长曲线图相关
     chartWidth: 0,
     chartHeight: 0,
     selectedPoint: null, // 选中的数据点
@@ -142,7 +142,7 @@ Page({
     }
   },
 
-  // 绘制K线图
+  // 绘制成长曲线图
   drawChart() {
     const { analysisData, chartWidth, chartHeight } = this.data
     

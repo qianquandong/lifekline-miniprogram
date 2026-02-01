@@ -65,7 +65,7 @@ Page({
     })
   },
 
-  // 计算八字
+  // 计算传统干支
   calculateBazi() {
     const { birthDate, birthTime, gender } = this.data
     
@@ -106,7 +106,7 @@ Page({
         icon: 'success'
       })
     } catch (error) {
-      console.error('计算八字失败:', error)
+      console.error('计算传统干支失败:', error)
       this.setData({
         errorMsg: error.message || '计算失败，请检查输入',
         baziResult: null
@@ -208,7 +208,7 @@ Page({
   generatePrompt() {
     if (!this.data.baziResult) {
       wx.showToast({
-        title: '请先计算八字',
+        title: '请先计算传统干支',
         icon: 'none'
       })
       return

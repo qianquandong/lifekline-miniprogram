@@ -33,8 +33,8 @@
   <!-- 主界面 -->
   <view wx:else class="main-content">
     <view class="header">
-      <text class="title">人生K线</text>
-      <text class="subtitle">传统文化学习</text>
+      <text class="title">成长曲线</text>
+      <text class="subtitle">传统文化学习与个人成长分析</text>
     </view>
 
     <!-- 可滚动内容区域 -->

@@ -164,7 +164,7 @@
     </view>
   </view>
 
-  <!-- K线图 -->
+  <!-- 成长曲线图 -->
   <view wx:if="{{activeTab === 'chart' && analysisData}}" class="chart-container">
     <view class="chart-wrapper">
       <canvas 

@@ -1,10 +1,10 @@
 /**
- * K线图绘制工具
+ * 成长曲线图绘制工具
  * 使用Canvas绘制人生成长曲线图
  */
 
 /**
- * 绘制K线图
+ * 绘制成长曲线图
  * @param {Object} ctx Canvas上下文
  * @param {Array} growthData 成长数据数组 [{age, score, trend}, ...]
  * @param {Number} width 画布宽度
@@ -160,7 +160,7 @@ function drawKLineChart(ctx, growthData, width, height, options = {}) {
     ctx.fill();
   }
 
-  // 绘制K线（减淡显示，作为背景）
+  // 绘制数据柱（减淡显示，作为背景）
   const barWidth = Math.max(1, chartWidth / growthData.length * 0.4);
   ctx.globalAlpha = 0.3;
   dataPoints.forEach((point, index) => {
@@ -180,7 +180,7 @@ function drawKLineChart(ctx, growthData, width, height, options = {}) {
       color = downColor;
     }
 
-    // 绘制K线实体（减淡）
+    // 绘制数据柱实体（减淡）
     ctx.fillStyle = color;
     ctx.fillRect(point.x - barWidth / 2, highY, barWidth, lowY - highY);
   });

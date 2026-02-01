@@ -19,10 +19,12 @@ function generatePrompt(baziResult) {
 
   const prompt = `请作为一位专业的传统文化分析师，对以下传统干支信息进行深度分析。
 
+**重要说明**：本分析仅供传统文化学习和个人成长参考，不涉及任何预测、建议或指导功能。所有分析内容仅用于帮助用户了解自身性格特点和发展趋势，不构成任何建议或指导。
+
 ## 基本信息
 - 出生日期：${birthInfo}
 - 性别：${genderText}
-- 四柱八字：${year.full} ${month.full} ${day.full} ${hour.full}
+- 四柱干支：${year.full} ${month.full} ${day.full} ${hour.full}
 - 年柱：${year.full}（${year.gan}${year.zhi}）
 - 月柱：${month.full}（${month.gan}${month.zhi}）
 - 日柱：${day.full}（${day.gan}${day.zhi}）
@@ -91,7 +93,9 @@ function generatePrompt(baziResult) {
 2. score的取值范围是0-100
 3. trend只能是"up"、"down"或"flat"之一
 4. 请确保JSON格式完全正确，可以直接被解析
-5. 成长曲线应该有一定的逻辑性，考虑大运周期的影响`;
+5. 成长曲线应该有一定的逻辑性，考虑大运周期的影响
+
+**再次提醒**：所有分析结果仅供传统文化学习和个人成长参考，不涉及任何预测、建议或指导功能。`;
 
   return prompt;
 }

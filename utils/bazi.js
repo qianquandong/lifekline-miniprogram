@@ -1,5 +1,5 @@
 /**
- * 八字计算工具
+ * 传统干支计算工具
  * 将公历日期转换为四柱干支
  */
 
@@ -183,12 +183,12 @@ function getHourZhu(year, month, day, hour) {
 }
 
 /**
- * 计算完整八字
+ * 计算完整传统干支
  * @param {Object} params 参数对象
  * @param {String} params.birthDate 出生日期 'YYYY-MM-DD'
  * @param {String} params.birthTime 出生时间 'HH:mm' 或 'HH'
  * @param {String} params.gender 性别 'male' | 'female'
- * @returns {Object} 八字对象
+ * @returns {Object} 传统干支对象
  */
 function calculateBazi({ birthDate, birthTime, gender }) {
   if (!birthDate || !birthTime) {
@@ -238,7 +238,7 @@ function calculateBazi({ birthDate, birthTime, gender }) {
       full: hourZhu.gan + hourZhu.zhi,
       name: shiChenName
     },
-    // 完整八字字符串
+    // 完整传统干支字符串
     bazi: `${yearZhu.gan}${yearZhu.zhi} ${monthZhu.gan}${monthZhu.zhi} ${dayZhu.gan}${dayZhu.zhi} ${hourZhu.gan}${hourZhu.zhi}`,
     // 原始输入信息
     input: {
