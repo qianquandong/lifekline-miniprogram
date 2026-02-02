@@ -17,8 +17,8 @@ Page({
     promptText: '',
     showPrompt: false,
     
-    // AI结果导入
-    aiResultInput: '',
+    // 分析结果导入
+    analysisResultInput: '',
     showImportDialog: false,
     
     // 测试模式
@@ -266,7 +266,7 @@ Page({
   openImportDialog() {
     this.setData({
       showImportDialog: true,
-      aiResultInput: ''
+      analysisResultInput: ''
     })
   },
 
@@ -274,24 +274,24 @@ Page({
   closeImportDialog() {
     this.setData({
       showImportDialog: false,
-      aiResultInput: ''
+      analysisResultInput: ''
     })
   },
 
-  // AI结果输入
-  onAiResultInput(e) {
+  // 分析结果输入
+  onAnalysisResultInput(e) {
     this.setData({
-      aiResultInput: e.detail.value
+      analysisResultInput: e.detail.value
     })
   },
 
-  // 导入AI结果
-  importAiResult() {
-    const { aiResultInput } = this.data
+  // 导入分析结果
+  importAnalysisResult() {
+    const { analysisResultInput } = this.data
 
-    if (!aiResultInput || !aiResultInput.trim()) {
+    if (!analysisResultInput || !analysisResultInput.trim()) {
       wx.showToast({
-        title: '请输入AI返回的JSON数据',
+        title: '请输入分析结果JSON数据',
         icon: 'none'
       })
       return
@@ -301,10 +301,10 @@ Page({
       // 尝试解析JSON
       let jsonData
       try {
-        jsonData = JSON.parse(aiResultInput.trim())
+        jsonData = JSON.parse(analysisResultInput.trim())
       } catch (e) {
         // 如果直接解析失败，尝试提取JSON部分
-        const jsonMatch = aiResultInput.match(/\{[\s\S]*\}/)
+        const jsonMatch = analysisResultInput.match(/\{[\s\S]*\}/)
         if (jsonMatch) {
           jsonData = JSON.parse(jsonMatch[0])
         } else {
@@ -364,7 +364,7 @@ Page({
         }
       })
     } catch (error) {
-      console.error('导入AI结果失败:', error)
+      console.error('导入分析结果失败:', error)
       wx.showToast({
         title: error.message || '导入失败，请检查数据格式',
         icon: 'none',

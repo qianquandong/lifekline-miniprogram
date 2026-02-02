@@ -346,7 +346,6 @@ page {
 }
 
 .kline-canvas {
-  width: 100%;
   border-radius: 10rpx;
   display: block;
   background: transparent;

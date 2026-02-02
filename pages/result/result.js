@@ -69,8 +69,8 @@ Page({
           // 如果当前在图表标签页，立即绘制
           if (this.data.activeTab === 'chart') {
             setTimeout(() => {
-              this.drawChart()
-            }, 300)
+              this.drawChart(0)
+            }, 800)
           }
         })
       }
@@ -97,16 +97,18 @@ Page({
               chartWidth: chartWidth,
               chartHeight: chartHeight
             }, () => {
+              // 等待 canvas 渲染完成，使用更长的延迟确保 DOM 更新
               setTimeout(() => {
-                this.drawChart()
-              }, 300)
+                this.drawChart(0)
+              }, 800)
             })
           }
         })
       } else {
+        // 等待 canvas 渲染完成
         setTimeout(() => {
-          this.drawChart()
-        }, 300)
+          this.drawChart(0)
+        }, 800)
       }
     }
   },
@@ -143,8 +145,17 @@ Page({
   },
 
   // 绘制成长曲线图
-  drawChart() {
+  drawChart(retryCount = 0) {
     const { analysisData, chartWidth, chartHeight } = this.data
+    
+    console.log('drawChart called', { 
+      retryCount,
+      hasAnalysisData: !!analysisData,
+      hasGrowth: !!analysisData?.growth,
+      growthLength: analysisData?.growth?.length,
+      chartWidth,
+      chartHeight
+    })
     
     // 向后兼容：如果数据中有fortune字段但没有growth字段，自动转换
     if (analysisData && analysisData.fortune && !analysisData.growth) {
@@ -152,7 +163,21 @@ Page({
     }
     
     if (!analysisData || !analysisData.growth || !chartWidth || !chartHeight) {
-      console.log('Missing data:', { analysisData: !!analysisData, growth: !!analysisData?.growth, chartWidth, chartHeight })
+      console.log('Missing data:', { 
+        analysisData: !!analysisData, 
+        growth: !!analysisData?.growth, 
+        chartWidth, 
+        chartHeight 
+      })
+      if (retryCount < 3) {
+        setTimeout(() => this.drawChart(retryCount + 1), 500)
+      }
+      return
+    }
+
+    // 检查数据是否有效
+    if (!Array.isArray(analysisData.growth) || analysisData.growth.length === 0) {
+      console.error('Invalid growth data:', analysisData.growth)
       return
     }
 
@@ -160,24 +185,55 @@ Page({
     setTimeout(() => {
       const query = wx.createSelectorQuery().in(this)
       query.select('#kline-canvas').node().exec((res) => {
+        console.log('Canvas query result:', res)
+        
         if (!res || !res[0] || !res[0].node) {
-          console.error('Canvas not found, retrying...')
-          setTimeout(() => this.drawChart(), 500)
+          console.error('Canvas not found, retrying...', res)
+          if (retryCount < 5) {
+            setTimeout(() => this.drawChart(retryCount + 1), 500)
+          } else {
+            wx.showToast({
+              title: '图表加载失败，请重试',
+              icon: 'none'
+            })
+          }
           return
         }
 
         const canvas = res[0].node
-        const ctx = canvas.getContext('2d')
-        if (!ctx) {
-          console.error('Canvas context not found')
+        if (!canvas) {
+          console.error('Canvas node is null')
+          if (retryCount < 5) {
+            setTimeout(() => this.drawChart(retryCount + 1), 500)
+          }
           return
         }
 
+        const ctx = canvas.getContext('2d')
+        if (!ctx) {
+          console.error('Canvas context not found')
+          if (retryCount < 5) {
+            setTimeout(() => this.drawChart(retryCount + 1), 500)
+          }
+          return
+        }
+
+        console.log('Canvas and context ready, drawing...', { chartWidth, chartHeight })
+
         const dpr = wx.getSystemInfoSync().pixelRatio || 2
         
+        // 设置canvas实际尺寸（考虑设备像素比）
         canvas.width = chartWidth * dpr
         canvas.height = chartHeight * dpr
         ctx.scale(dpr, dpr)
+
+        // 先绘制一个测试背景，确保 canvas 可见
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(0, 0, chartWidth, chartHeight)
+        
+        // 绘制一个测试矩形，确保 canvas 正常工作
+        ctx.fillStyle = '#f0f0f0'
+        ctx.fillRect(10, 10, chartWidth - 20, chartHeight - 20)
 
         // 绘制图表
         try {
@@ -194,12 +250,26 @@ Page({
 
           // 保存数据点用于点击交互
           this.dataPoints = dataPoints
-          console.log('Chart drawn successfully')
+          console.log('Chart drawn successfully', { 
+            dataPointsCount: dataPoints.length,
+            chartWidth,
+            chartHeight
+          })
         } catch (error) {
           console.error('Error drawing chart:', error)
+          console.error('Error stack:', error.stack)
+          // 绘制错误信息到 canvas
+          ctx.fillStyle = '#ff0000'
+          ctx.font = '14px sans-serif'
+          ctx.fillText('绘制失败: ' + error.message, 20, 30)
+          wx.showToast({
+            title: '图表绘制失败',
+            icon: 'none',
+            duration: 3000
+          })
         }
       })
-    }, 500)
+    }, 200)
   },
 
   // 处理canvas点击事件

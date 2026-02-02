@@ -160,7 +160,7 @@
     
     <!-- 空数据提示 -->
     <view wx:if="{{!analysisData.personality && !analysisData.career && !analysisData.wealth && !analysisData.marriage && !analysisData.health}}" class="empty-tip">
-      <text>暂无分析数据，请先导入AI分析结果</text>
+      <text>暂无分析数据，请先导入分析结果</text>
     </view>
   </view>
 
@@ -172,7 +172,7 @@
         type="2d" 
         id="kline-canvas" 
         class="kline-canvas"
-        style="width: {{chartWidth}}px; height: {{chartHeight}}px;"
+        style="width: {{chartWidth}}px; height: {{chartHeight}}px; display: block;"
         bindtap="onCanvasTap"
       ></canvas>
       <view wx:else class="chart-loading">加载中...</view>
